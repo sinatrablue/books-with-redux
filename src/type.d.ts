@@ -21,3 +21,5 @@ type BookState = {
   books: BookProps[];
   selectedBook: BookProps;
 };
+
+type DispatchType = (args: BookAction) => BookAction;
