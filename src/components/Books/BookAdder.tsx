@@ -1,15 +1,26 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { BsArrowLeftSquareFill } from "react-icons/bs";
 import { useState } from "react";
 import Button from "../Button/Button";
 import Input from "../Input/Input";
+import { useAppDispatch, useAppSelector } from "../../store/typedHooks";
+import { selectBooks, setBooks } from "../../store/reducers/booksSlice";
 
 export default function BookAdder() {
   const [input, setInput] = useState<BookProps>({
-    isbn: 0,
+    isbn: Math.floor(Math.random() * 10000000),
     title: "",
     author: "",
   });
+
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const booksList = useAppSelector(selectBooks);
+  const addNewBook = () => {
+    console.log("Adding new book", input);
+    dispatch(setBooks([...booksList, input]));
+    navigate("/");
+  };
 
   return (
     <>
@@ -47,10 +58,7 @@ export default function BookAdder() {
         </div>
       </div>
       <div className="d-flex w-100 justify-content-center">
-        <Button
-          onClick={() => console.log("Add this book!")}
-          title="Add This Book"
-        />
+        <Button onClick={addNewBook} title="Add This Book" />
       </div>
     </>
   );

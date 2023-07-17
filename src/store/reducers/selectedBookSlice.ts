@@ -11,14 +11,12 @@ export const currentBookSlice = createSlice({
   name: "currentBookSlice",
   initialState: initialState,
   reducers: {
-    setcurrentBook: (state, action: PayloadAction<BookProps>) => {
-      state.author = action.payload.author;
-      state.isbn = action.payload.isbn;
-      state.title = action.payload.title;
+    setCurrentBook: (state, action: PayloadAction<BookProps>) => {
+      return action.payload;
     },
   },
 });
 
-export const { setcurrentBook } = currentBookSlice.actions;
+export const { setCurrentBook } = currentBookSlice.actions;
 export const selectCurrentBook = (state: RootState) => state.selectedBook;
 export default currentBookSlice.reducer;

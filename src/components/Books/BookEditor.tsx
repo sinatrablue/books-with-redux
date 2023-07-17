@@ -1,15 +1,32 @@
 import { useState } from "react";
 import { BsArrowLeftSquareFill } from "react-icons/bs";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Input from "../Input/Input";
 import Button from "../Button/Button";
+import { useSelector } from "react-redux";
+import { selectCurrentBook } from "../../store/reducers/selectedBookSlice";
+import { useAppDispatch } from "../../store/typedHooks";
+import { selectBooks, setBooks } from "../../store/reducers/booksSlice";
 
 export default function BookEditor() {
-  const [input, setInput] = useState<BookProps>({
-    isbn: 0,
-    title: "",
-    author: "",
-  });
+  const currentBookToEdit = useSelector(selectCurrentBook);
+  const [input, setInput] = useState<BookProps>(currentBookToEdit);
+
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const books = useSelector(selectBooks);
+  const updateBook = () => {
+    console.log("updating book", input);
+    dispatch(
+      setBooks(
+        books.map(book => {
+          if (book.isbn !== input.isbn) return book;
+          return input;
+        })
+      )
+    );
+    navigate("/");
+  };
 
   return (
     <>
@@ -47,10 +64,7 @@ export default function BookEditor() {
         </div>
       </div>
       <div className="d-flex w-100 justify-content-center">
-        <Button
-          onClick={() => console.log("Add this book!")}
-          title="Update This Book"
-        />
+        <Button onClick={updateBook} title="Update This Book" />
       </div>
     </>
   );

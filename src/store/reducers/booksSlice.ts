@@ -9,7 +9,7 @@ export const booksSlice = createSlice({
   initialState: initialState,
   reducers: {
     setBooks: (state, action: PayloadAction<BookProps[]>) => {
-      state = { ...action.payload };
+      return action.payload;
     },
   },
 });
